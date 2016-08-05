@@ -1,0 +1,46 @@
+﻿<!doctype html>
+<html>
+    <head>
+        <script src="angular.js"></script>
+    </head>
+    <body ng-app="myApp" ng-controller="toCtrl">
+        <h2>Angluar实现备忘录</h2>
+		<form ng-submit="AddMemo()">
+			<input type="text" ng-model="toInput" size="30" placeholder="新增">
+			<input type="submit" value="新增">
+		</form>
+		<br>
+
+		<div ng-repeat="x in toList">
+			<input type="checkbox" ng-model="x.done"> 
+			<span ng-bind="x.toText"></span>
+		</div>
+
+		<p><button ng-click="remove()">删除</button></p>
+
+		<script>
+			var app = angular.module("myApp",[]);
+			app.controller("toCtrl",function($scope){
+				$scope.toList = [{toText:'memo prepare',done:false}];
+
+				//新增memo
+				 $scope.AddMemo = function() {
+					$scope.toList.push({toText:$scope.toInput,done:false});
+				   $scope.toInput = "";
+				};
+
+
+				//删除memo
+				$scope.remove = function(){
+					var oldList = $scope.toList;
+					$scope.toList = [];
+					angular.forEach(oldList,function(x){
+						if(!x.done)
+							$scope.toList.push(x);	
+						
+					})
+				}
+			})
+		</script>
+    </body>
+</html>
